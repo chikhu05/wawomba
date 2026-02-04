@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Be My Valentine ❤️</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #ff1e56, #ff4d6d);
+  color: white;
+  text-align: center;
+  overflow-x: hidden;
+}
+
+/* Floating hearts background */
+.heart {
+  position: fixed;
+  bottom: -20px;
+  color: red;
+  opacity: 0.8;
+  animation: floatUp linear infinite;
+  z-index: 0;
+}
+
+@keyframes floatUp {
+  from { transform: translateY(0) scale(1); opacity: 1; }
+  to { transform: translateY(-120vh) scale(1.6); opacity: 0; }
+}
+
+/* Content */
+.container {
+  position: relative;
+  z-index: 1;
+  padding: 20px;
+  max-width: 700px;
+  margin: auto;
+}
+
+h1 { font-size: 2.2em; }
+
+/* Love letter */
+.love-letter {
+  background: rgba(255,255,255,0.2);
+  padding: 20px;
+  border-radius: 15px;
+  margin: 20px 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 1em;
+}
+
+/* Photos */
+.photos {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.photos img {
+  width: 100%;
+  border-radius: 15px;
+  border: 3px solid white;
+  transition: transform 0.3s;
+}
+
+.photos img:hover { transform: scale(1.08); }
+
+/* Video */
+video {
+  width: 100%;
+  max-width: 100%;
+  border-radius: 15px;
+  border: 3px solid white;
+  margin: 20px 0;
+}
+
+/* Buttons */
+button {
+  background: white;
+  color: #ff1e56;
+  border: none;
+  padding: 15px 28px;
+  border-radius: 30px;
+  font-size: 1.1em;
+  cursor: pointer;
+  margin: 10px;
+}
+
+button:hover {
+  background: #ff1e56;
+  color: white;
+}
+
+/* Valentine section */
+.valentine-box {
+  background: rgba(255,255,255,0.25);
+  padding: 25px;
+  border-radius: 20px;
+  margin: 30px 0;
+}
+
+.question {
+  font-size: 1.3em;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+#noBtn { position: relative; }
+
+/* Heart explosion */
+.burst {
+  position: fixed;
+  font-size: 24px;
+  animation: burst 1.5s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes burst {
+  from { transform: scale(1) translateY(0); opacity: 1; }
+  to { transform: scale(2) translateY(-150px); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Background Music -->
+<audio id="bgMusic" loop>
+  <source src="love song.mp3" type="audio/mp3">
+</audio>
+
+<div class="container">
+  <h1>❤️ FOR MY FAVORITE PERSON ❤️</h1>
+
+  <div class="love-letter">
+    MY LOVE ❤️<br><br>
+    YOU MAKE MY WORLD BRIGHTER JUST BY BEING IN IT.
+    EVERY MOMENT WITH YOU FEELS SPECIAL.
+    I CHOOSE YOU TODAY, TOMORROW, AND ALWAYS 💕
+  </div>
+
+  <h2>OUR MOMENTS 📸</h2>
+  <div class="photos">
+    <img src="pic1.jpeg">
+    <img src="pic2.jpeg">
+    <img src="pic3.jpeg">
+    <img src="pic4.jpeg">
+  </div>
+
+  <h2>JUST FOR YOU 🎥</h2>
+  <video controls>
+    <source src="Video.mp4" type="video/mp4">
+  </video>
+
+  <h2 id="question">ONE LAST QUESTION 💌</h2>
+  <div class="valentine-box">
+    <p class="question">WILL YOU BE MY VALENTINE? 💖</p>
+    <button onclick="yesAnswer()">YES ❤️</button>
+    <button id="noBtn">NO 🙈</button>
+  </div>
+
+  <button onclick="toggleMusic()">🎵 MUSIC</button>
+</div>
+
+<script>
+/* Floating hearts background */
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerHTML = "❤️";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = Math.random() * 25 + 15 + "px";
+  heart.style.animationDuration = Math.random() * 3 + 5 + "s";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 8000);
+}
+setInterval(createHeart, 180);
+
+/* Music fade-in */
+const music = document.getElementById("bgMusic");
+music.volume = 0;
+document.addEventListener("click", () => {
+  music.play();
+  let v = 0;
+  const fade = setInterval(() => {
+    if (v < 0.5) { v += 0.02; music.volume = v; }
+    else clearInterval(fade);
+  }, 200);
+}, { once: true });
+
+function toggleMusic() { music.paused ? music.play() : music.pause(); }
+
+/* YES heart explosion + open flowers tab */
+function yesAnswer() {
+  for (let i = 0; i < 25; i++) {
+    const b = document.createElement("div");
+    b.className = "burst";
+    b.innerHTML = "❤️";
+    b.style.left = Math.random() * 100 + "vw";
+    b.style.top = Math.random() * 100 + "vh";
+    document.body.appendChild(b);
+    setTimeout(() => b.remove(), 1500);
+  }
+
+  setTimeout(() => {
+    alert("YAY ❤️ YOU JUST MADE ME THE HAPPIEST PERSON ALIVE 💍💖");
+    window.open("flowers.html", "_blank");
+  }, 500);
+}
+
+/* NO button dodge (desktop + mobile) */
+const noBtn = document.getElementById("noBtn");
+function dodge() {
+  const x = Math.random() * 200 - 100;
+  const y = Math.random() * 200 - 100;
+  noBtn.style.transform = `translate(${x}px, ${y}px)`;
+}
+noBtn.addEventListener("mouseover", dodge);
+noBtn.addEventListener("touchstart", dodge);
+
+/* Auto-scroll to question */
+window.onload = () => {
+  setTimeout(() => {
+    document.getElementById("question").scrollIntoView({ behavior: "smooth" });
+  }, 2000);
+};
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌸 Surprise Flowers 🌸</title>
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #ffe6f0;
+  text-align: center;
+  overflow-x: hidden;
+}
+h1 { margin-top: 30px; color: #ff1e56; }
+img {
+  width: 200px;
+  margin: 10px;
+  border-radius: 20px;
+  transition: transform 0.3s;
+}
+img:hover { transform: scale(1.1); }
+</style>
+</head>
+<body>
+
+<h1>🌸 SURPRISE! 🌸</h1>
+<p>Just for you, my love 💖</p>
+
+<img src="flower1.jpg" alt="Flower 1">
+<img src="flower2.jpg" alt="Flower 2">
+<img src="flower3.jpg" alt="Flower 3">
+<img src="flower4.jpg" alt="Flower 4">
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌸 Surprise Flowers 🌸</title>
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #ffe6f0;
+  text-align: center;
+  overflow-x: hidden;
+}
+h1 { margin-top: 30px; color: #ff1e56; }
+img {
+  width: 200px;
+  margin: 10px;
+  border-radius: 20px;
+  transition: transform 0.3s;
+}
+img:hover { transform: scale(1.1); }
+</style>
+</head>
+<body>
+
+<h1>🌸 SURPRISE! 🌸</h1>
+<p>Just for you, my love 💖</p>
+
+<img src="flowers1.jfif" >
+<img src="flowers2.jfif" >
+<img src="flowers3.jfif" >
+<img src="flowers4.jfif" >
+<img src="pic5.jpeg">
+<img src="pic6.jpeg">
+<img src="pic7.jpeg">
+
+<h2>MY PRETTY BABY💖💖 🎥</h2>
+  <video controls>
+    <source src="video 2.mp4" type="video/mp4">
+    <source src="video 3.mp4"type="video/mp4">
+  </video>
+
+</body>
+</html>
